@@ -1,0 +1,1 @@
+export const FindProductByShop = (data, id) => data.length > 0 && data.find((item)=> item._id === id);

@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --color-green-600: #e11d48; /* Crimson Red instead of Green */
+  --color-green-500: #f43f5e;
+  --color-green-700: #be123c;
+  
+  /* Light Theme defaults */
+  --color-white: #ffffff;
+  --color-gray-50: #f9fafb;
+  --color-gray-900: #111827;
+  --color-gray-700: #374151;
+  --color-gray-600: #4b5563;
+  --color-gray-500: #6b7280;
+  --color-gray-400: #9ca3af;
+  --color-gray-300: #d1d5db;
+  --color-gray-200: #e5e7eb;
+  --color-gray-100: #f3f4f6;
+}
+
+@utility bg-red-gradient {
+  background: linear-gradient(135deg, #f43f5e 0%, #9b1c1c 100%);
+}
+
+@utility bg-red-radial {
+  background: radial-gradient(circle at center, #fb7185 0%, #e11d48 50%, #9b1c1c 100%);
+}
+
+body {
+  background-color: #f9fafb;
+  color: #111827;
+}
