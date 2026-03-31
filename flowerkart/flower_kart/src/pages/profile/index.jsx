@@ -30,7 +30,7 @@ export default function Profile() {
     const fetchOrders = async (id) => {
       try {
         console.log("Fetching orders for userId:", id);
-        const response = await axios.get(`http://localhost:5000/orders/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/orders/${id}`);
         console.log("Orders received:", response.data);
         setOrders(response.data);
       } catch (err) {

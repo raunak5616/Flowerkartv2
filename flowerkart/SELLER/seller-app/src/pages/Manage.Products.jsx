@@ -14,7 +14,7 @@ export const ManageProducts = () => {
   const fetchProducts = async () => {
     const shopId = localStorage.getItem("shopId");
     try {
-      const response = await axios.get(`http://localhost:8080/api/products/${shopId}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/${shopId}`);
       setProducts(response.data);
     } catch (error) {
       console.error("Failed to fetch products:", error);
@@ -25,7 +25,7 @@ export const ManageProducts = () => {
 
   const handleUpdate = async (id) => {
     try {
-      await axios.put(`http://localhost:8080/api/products/${id}`, editValues);
+      await axios.put(`${import.meta.env.VITE_API_URL}/${id}`, editValues);
       setEditingId(null);
       fetchProducts();
       alert("Product updated successfully!");
@@ -37,7 +37,7 @@ export const ManageProducts = () => {
   const deleteProduct = async (id) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
     try {
-      await axios.delete(`http://localhost:8080/api/products/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/${id}`);
       fetchProducts();
       alert("Product deleted successfully!");
     } catch (error) {

@@ -52,7 +52,7 @@ export const UploadProduct = () => {
     try {
       console.log("SUBMIT CLICKED");
       await axios.post(
-        `http://localhost:8080/api/products`,
+        `${import.meta.env.VITE_API_URL}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

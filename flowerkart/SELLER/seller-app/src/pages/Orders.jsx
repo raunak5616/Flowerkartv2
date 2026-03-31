@@ -15,7 +15,7 @@ export const Orders = () => {
   const fetchOrders = async () => {
     const shopId = localStorage.getItem("shopId");
     try {
-      const response = await axios.get(`http://localhost:8080/api/products/orders/${shopId}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/orders/${shopId}`);
       // Filter out Delivered/Cancelled if they exist from legacy, only show relevant for seller
       const relevantOrders = response.data.filter(o => 
         ["Success", "Accepted", "Shipped", "Delivered"].includes(o.status)
@@ -30,7 +30,7 @@ export const Orders = () => {
 
   const updateStatus = async (orderId, newStatus) => {
     try {
-      await axios.patch(`http://localhost:8080/api/products/orders/${orderId}/status`, { status: newStatus });
+      await axios.patch(`${import.meta.env.VITE_API_URL}/orders/${orderId}/status`, { status: newStatus });
       fetchOrders();
     } catch (error) {
       alert("Failed to update status");

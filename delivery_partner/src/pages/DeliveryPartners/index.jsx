@@ -14,7 +14,7 @@ export const DeliveryPartners = () => {
   const fetchPartners = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:3000/api/admin/delivery-partners');
+      const res = await axios.get(`${import.meta.env.VITE_DELIVERY_API_URL}/api/admin/delivery-partners`);
       setPartners(res.data);
     } catch (error) {
       console.error("Failed to fetch delivery partners");
@@ -26,7 +26,7 @@ export const DeliveryPartners = () => {
   const deletePartner = async (id) => {
     if (!window.confirm("Delete this delivery partner?")) return;
     try {
-      await axios.delete(`http://localhost:3000/api/admin/delivery-partners/${id}`);
+      await axios.delete(`${import.meta.env.VITE_DELIVERY_API_URL}/api/admin/delivery-partners/${id}`);
       fetchPartners();
     } catch (error) {
       alert("Failed to delete partner");

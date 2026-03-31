@@ -14,7 +14,7 @@ export const Orders = () => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/orders');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/orders`);
       setOrders(res.data);
     } catch (error) {
       console.error("Failed to fetch orders");
@@ -26,7 +26,7 @@ export const Orders = () => {
   const deleteOrder = async (id) => {
     if (!window.confirm("Remove this order record from history?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/orders/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/admin/orders/${id}`);
       fetchOrders();
     } catch (error) {
       alert("Failed to delete order");

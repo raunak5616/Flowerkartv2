@@ -69,7 +69,7 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/products/signup", formData,
+        `${import.meta.env.VITE_API_URL}/signup`, formData,
       );
       alert(response.data.message);
       navigate("/dashboard");

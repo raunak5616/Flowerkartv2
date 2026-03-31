@@ -18,7 +18,7 @@ export const Bills = () => {
   const fetchBills = async () => {
     const shopId = localStorage.getItem("shopId");
     try {
-      const response = await axios.get(`http://localhost:8080/api/products/bills/${shopId}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/bills/${shopId}`);
       setBillsData(response.data);
       console.log(response.data);
     } catch (error) {

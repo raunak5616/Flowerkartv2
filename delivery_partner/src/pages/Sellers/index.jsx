@@ -15,7 +15,7 @@ export const Sellers = () => {
   const fetchSellers = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/shops');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/shops`);
       setSellers(res.data);
     } catch (error) {
       console.error("Failed to fetch sellers");
@@ -32,7 +32,7 @@ export const Sellers = () => {
     setExpandedId(id);
     if (!shopProducts[id]) {
       try {
-        const res = await axios.get(`http://localhost:5000/api/auth/productsById/${id}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/productsById/${id}`);
         setShopProducts(prev => ({ ...prev, [id]: res.data }));
       } catch (error) {
         console.error("Failed to fetch shop products");
@@ -43,7 +43,7 @@ export const Sellers = () => {
   const deleteSeller = async (id) => {
     if (!window.confirm("Are you sure you want to remove this seller? This action is irreversible.")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/shops/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/admin/shops/${id}`);
       fetchSellers();
     } catch (error) {
       alert("Failed to delete seller");

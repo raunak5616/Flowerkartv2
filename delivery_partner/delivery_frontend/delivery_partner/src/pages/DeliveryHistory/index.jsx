@@ -8,7 +8,7 @@ const DeliveryHistory = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/delivery/orders/history");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/delivery/orders/history`);
         setOrders(response.data);
       } catch (err) {
         console.error(err);

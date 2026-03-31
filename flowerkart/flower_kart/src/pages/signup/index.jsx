@@ -34,7 +34,7 @@ const Signup = () => {
   if(!error){
    try{ 
     const response = await axios.post(
-      `${import.meta.env.VITE_MONGO_URI}/signup`,formData,
+      `${import.meta.env.VITE_API_URL}/signup`,formData,
       {
         headers:{
           "content-type" : "application/json"

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const getProducts = async () => {
-  const URL = import.meta.env.VITE_MONGO_URI + "/products";
+  const URL = import.meta.env.VITE_API_URL + "/products";
   try {
     const response = await axios.get(URL);
     return response.data;
@@ -11,7 +11,7 @@ export const getProducts = async () => {
   }
 };
 export const getProductById = async (id) => {
-  const URL = `${import.meta.env.VITE_MONGO_URI}/productsById/${id}`;
+  const URL = `${import.meta.env.VITE_API_URL}/productsById/${id}`;
   try {
     const response = await axios.get(URL);
     return response.data;
@@ -22,7 +22,7 @@ export const getProductById = async (id) => {
 };
 
 export const getProfile = async (id) => {
-  const URL = `${import.meta.env.VITE_MONGO_URI}/profile/${id}`;
+  const URL = `${import.meta.env.VITE_API_URL}/profile/${id}`;
   try {
     const token = localStorage.getItem("token");
     const response = await axios.get(URL, {
@@ -38,7 +38,7 @@ export const getProfile = async (id) => {
 };
 
 export const updateProfile = async (id, formData) => {
-  const URL = `${import.meta.env.VITE_MONGO_URI}/profileUpdate`;
+  const URL = `${import.meta.env.VITE_API_URL}/profileUpdate`;
   try {
     const response = await axios.post(URL, formData, {
       headers: { "Content-Type": "multipart/form-data" },
@@ -51,7 +51,7 @@ export const updateProfile = async (id, formData) => {
 };
 
 export const submitReview = async (orderId, reviewData) => {
-  const URL = `${import.meta.env.VITE_MONGO_URI}/review/${orderId}`;
+  const URL = `${import.meta.env.VITE_API_URL}/review/${orderId}`;
   try {
     const token = localStorage.getItem("token");
     const response = await axios.post(URL, reviewData, {

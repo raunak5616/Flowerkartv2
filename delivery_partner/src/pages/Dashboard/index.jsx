@@ -25,10 +25,10 @@ export const Dashboard = () => {
   const fetchStats = async () => {
     try {
       const [userRes, shopRes, orderRes, partnerRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/admin/users'),
-        axios.get('http://localhost:5000/api/admin/shops'),
-        axios.get('http://localhost:5000/api/admin/orders'),
-        axios.get('http://localhost:3000/api/admin/delivery-partners')
+        axios.get(`${import.meta.env.VITE_API_URL}/api/admin/users`),
+        axios.get(`${import.meta.env.VITE_API_URL}/api/admin/shops`),
+        axios.get(`${import.meta.env.VITE_API_URL}/api/admin/orders`),
+        axios.get(`${import.meta.env.VITE_DELIVERY_API_URL}/api/admin/delivery-partners`)
       ]);
 
       const revenue = orderRes.data.reduce((acc, order) => acc + (order.amount || 0), 0);

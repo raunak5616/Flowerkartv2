@@ -32,7 +32,7 @@ const Signup = () => {
     // We can use generic JSON instead of FormData since no images are strictly needed for delivery signup here
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/signup", 
+        `${import.meta.env.VITE_API_URL}/api/auth/signup`, 
         signUpData,
         { headers: { "Content-Type": "application/json" } }
       );

@@ -22,7 +22,7 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post(`${import.meta.env.VITE_MONGO_URI}/login`,
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`,
         loginData,
         {
           headers: {

@@ -15,7 +15,7 @@ export const Users = () => {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/users');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/users`);
       setUsers(res.data);
     } catch (error) {
       console.error("Failed to fetch users");
@@ -32,7 +32,7 @@ export const Users = () => {
     setExpandedId(id);
     if (!userOrders[id]) {
         try {
-          const res = await axios.get(`http://localhost:5000/orders/${id}`);
+          const res = await axios.get(`${import.meta.env.VITE_API_URL}/orders/${id}`);
           setUserOrders(prev => ({ ...prev, [id]: res.data }));
         } catch (error) {
           console.error("Failed to fetch user orders");
