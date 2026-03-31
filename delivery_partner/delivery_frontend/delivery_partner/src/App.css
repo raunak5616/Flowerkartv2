@@ -1,0 +1,15 @@
+.bg-red-gradient {
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+}
+
+.bg-green-gradient {
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+}
+
+.bg-blue-gradient {
+  background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+}
+
+* {
+  box-sizing: border-box;
+}

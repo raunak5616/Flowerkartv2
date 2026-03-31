@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 font-sans;
+  }
+}
+
+:root {
+  --admin-primary: #ef4444; /* Red 500 */
+  --admin-secondary: #3b82f6; /* Blue 500 */
+}
+
+.bg-red-gradient {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.bg-blue-gradient {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
