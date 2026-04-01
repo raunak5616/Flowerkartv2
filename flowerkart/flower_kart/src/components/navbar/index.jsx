@@ -20,10 +20,10 @@ import { useAuth } from "../../context/auth.context";
 import { getProfile } from "../../apiCalls/productapi";
 import { motion, AnimatePresence } from "framer-motion";
 const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Shop", href: "/shop" },
-  { name: "Products", href: "/products" },
-  { name: "Support", href: "/support" },
+  { name: "Home", href: "/", icon: "home" },
+  { name: "Shop", href: "/shop", icon: "storefront" },
+  { name: "Products", href: "/products", icon: "inventory_2" },
+  { name: "Support", href: "/support", icon: "contact_support" },
 ];
 
 export default function Navbar() {
@@ -76,7 +76,7 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between">
 
           {/* LEFT SIDE */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2 sm:gap-6">
 
             {/* LOGO */}
             <div
@@ -89,15 +89,15 @@ export default function Navbar() {
             {/* LOCATION */}
             <div
               onClick={() => setIsLocationModalOpen(true)}
-              className="hidden sm:flex items-center gap-2 cursor-pointer hover:bg-gray-100 px-3 py-1 rounded-md"
+              className="flex items-center gap-1 sm:gap-2 cursor-pointer hover:bg-gray-100 px-2 sm:px-3 py-1 rounded-md"
             >
               <span className="material-symbols-outlined text-red-600">
                 location_on
               </span>
 
               <div className="flex flex-col leading-tight">
-                <span className="text-xs text-gray-500">Deliver to</span>
-                <span className="text-sm font-semibold truncate max-w-[160px]">
+                <span className="hidden sm:block text-[10px] sm:text-xs text-gray-500">Deliver to</span>
+                <span className="text-xs sm:text-sm font-semibold truncate max-w-[100px] sm:max-w-[160px]">
                   {address}
                 </span>
               </div>
@@ -153,14 +153,14 @@ export default function Navbar() {
 
             <button
               onClick={() => navigate("/favorite")}
-              className="p-2 rounded-md hover:bg-gray-100">
+              className="hidden lg:block p-2 rounded-md hover:bg-gray-100">
               <span className="material-symbols-outlined">
                 favorite
               </span>
             </button>
 
             {/* NOTIFICATION */}
-            <button className="p-2 rounded-md hover:bg-gray-100">
+            <button className="hidden lg:block p-2 rounded-md hover:bg-gray-100">
               <BellIcon className="h-6 w-6 text-gray-700" />
             </button>
 
@@ -283,53 +283,99 @@ export default function Navbar() {
               <div className="space-y-1 px-4 py-3 flex flex-col">
                 {/* Navigation */}
                 {navigation.map((item) => (
-                  <NavLink
+                  <DisclosureButton
                     key={item.name}
+                    as={NavLink}
                     to={item.href}
                     end
                     className={({ isActive }) =>
-                      `px-3 py-2 rounded-md text-base font-medium transition-all ${isActive
+                      `flex items-center gap-3 px-3 py-2.5 rounded-xl text-base font-medium transition-all ${isActive
                         ? "bg-red-gradient text-white shadow-md translate-x-1"
                         : "text-gray-700 hover:bg-gray-100 hover:translate-x-1"
                       }`
                     }
                   >
+                    <span className="material-symbols-outlined text-[22px]">{item.icon}</span>
                     {item.name}
-                  </NavLink>
+                  </DisclosureButton>
                 ))}
 
-                <hr className="my-2" />
+                <hr className="my-2 border-gray-100" />
+
+                {/* Mobile Location */}
+                <DisclosureButton 
+                  as="div"
+                  onClick={() => setIsLocationModalOpen(true)}
+                  className="flex items-center gap-3 px-3 py-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors border border-gray-100"
+                >
+                  <span className="material-symbols-outlined text-red-600">location_on</span>
+                  <div className="flex flex-col leading-tight">
+                    <span className="text-[10px] text-gray-500 font-medium uppercase tracking-wider">Deliver to</span>
+                    <span className="text-sm font-bold text-gray-900 truncate max-w-[200px]">
+                      {address}
+                    </span>
+                  </div>
+                </DisclosureButton>
+
+                <hr className="my-2 border-gray-100" />
+
+                {/* Additional Actions (Favorite & Notification) */}
+                <DisclosureButton
+                  as="button"
+                  onClick={() => navigate("/favorite")}
+                  className="flex items-center gap-3 px-3 py-2.5 text-base text-gray-700 hover:bg-gray-100 rounded-xl transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[22px]">favorite</span>
+                  Wishlist
+                </DisclosureButton>
+
+                <DisclosureButton
+                  as="button"
+                  onClick={() => {}} // Could navigate to notifications if route exists
+                  className="flex items-center gap-3 px-3 py-2.5 text-base text-gray-700 hover:bg-gray-100 rounded-xl transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[22px]">notifications</span>
+                  Notifications
+                </DisclosureButton>
+
+                <hr className="my-2 border-gray-100" />
 
                 {/* Auth Section */}
                 {isAuthenticated ? (
                   <>
-                    <button
+                    <DisclosureButton
+                      as="button"
                       onClick={() => {
                         if (!user?._id) return;
                         navigate("/profile");
                       }}
-                      className="text-left px-3 py-2 text-base hover:bg-gray-100 rounded-md transition-colors"
+                      className="flex items-center gap-3 px-3 py-2.5 text-base text-gray-700 hover:bg-gray-100 rounded-xl transition-colors"
                     >
-                      Profile
-                    </button>
+                      <span className="material-symbols-outlined text-[22px]">person</span>
+                      My Profile
+                    </DisclosureButton>
 
-                    <button
+                    <DisclosureButton
+                      as="button"
                       onClick={() => {
                         logout();
                         navigate("/login");
                       }}
-                      className="text-left px-3 py-2 text-base hover:bg-gray-100 rounded-md text-red-600 transition-colors"
+                      className="flex items-center gap-3 px-3 py-2.5 text-base text-red-600 hover:bg-red-50 rounded-xl transition-colors"
                     >
+                      <span className="material-symbols-outlined text-[22px]">logout</span>
                       Logout
-                    </button>
+                    </DisclosureButton>
                   </>
                 ) : (
-                  <button
+                  <DisclosureButton
+                    as="button"
                     onClick={() => navigate("/login")}
-                    className="text-left px-3 py-2 text-base hover:bg-gray-100 rounded-md transition-colors"
+                    className="flex items-center gap-3 px-3 py-2.5 text-base text-gray-700 hover:bg-gray-100 rounded-xl transition-colors"
                   >
-                    Login
-                  </button>
+                    <span className="material-symbols-outlined text-[22px]">login</span>
+                    Login / Sign Up
+                  </DisclosureButton>
                 )}
               </div>
 
