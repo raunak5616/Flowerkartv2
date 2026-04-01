@@ -3,11 +3,14 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/auth.context";
 import { useEffect } from "react";
-import { getProfile } from "../../apiCalls/productapi";
+import { getProfile, updateProfile } from "../../apiCalls/productapi";
+import { motion, AnimatePresence } from "framer-motion";
 export default function Profile() {
   const { logout, user: authUser } = useAuth();
   const navigater = useNavigate();
   const [popup, setpopup] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState({ message: "", type: "", show: false });
   const [image, setimage] = useState(null);
   const [user, setUser] = useState({
     name: "",
@@ -53,26 +56,29 @@ export default function Profile() {
       formdata.append("images", image);
     }
     try {
-      const token = localStorage.getItem("token");
-      console.log("Token:", token); // ✅ add this for debugging
-      const response = await axios.post(`${import.meta.env.VITE_MONGO_URI}/profileUpdate`, formdata,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // ✅ IMPORTANT
-          },
-        }
-      );
-      alert(response.data.message);
+      setLoading(true);
+      const response = await updateProfile(authUser._id, formdata);
+      setNotification({ message: response.message || "Profile updated successfully!", type: "success", show: true });
       setpopup(false);
-      // Make API call to save updated profile
+
+      // Refresh profile data
+      const updatedData = await getProfile(authUser._id);
+      setUser(updatedData || user);
+
+      // Auto-hide notification after 3s
+      setTimeout(() => setNotification({ message: "", type: "", show: false }), 3000);
     } catch (err) {
       if (err.response?.status === 401) {
-        alert("Session expired. Please login again.");
+        setNotification({ message: "Session expired. Please login again.", type: "error", show: true });
         logout();
         navigater("/login");
-        // redirect to login
         console.log("error updating profile❌❌:", err);
+      } else {
+        setNotification({ message: err.response?.data?.message || err.message || "Failed to update profile.", type: "error", show: true });
       }
+      setTimeout(() => setNotification({ message: "", type: "", show: false }), 3000);
+    } finally {
+      setLoading(false);
     }
   }
   const handleCloseDetails = () => {
@@ -213,12 +219,53 @@ export default function Profile() {
               className="block w-full text-sm text-red-600 mb-4 cursor-pointer"
             />
             <div className="flex justify-end gap-2">
-              <button onClick={() => setpopup(false)} className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition">Cancel</button>
-              <button onClick={handleSave} className="px-4 py-2 bg-red-gradient text-white rounded-lg hover:opacity-90 transition">Save</button>
+              <button 
+                onClick={() => setpopup(false)} 
+                disabled={loading}
+                className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleSave} 
+                disabled={loading}
+                className="px-4 py-2 bg-red-gradient text-white rounded-lg hover:opacity-90 transition min-w-[80px] flex items-center justify-center disabled:opacity-75"
+              >
+                {loading ? (
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                    className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                  />
+                ) : (
+                  "Save"
+                )}
+              </button>
             </div>
           </div>
         </div>
       )}
+
+      {/* NOTIFICATION TOAST */}
+      <AnimatePresence>
+        {notification.show && (
+          <motion.div
+            initial={{ opacity: 0, y: -50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 20, scale: 1 }}
+            exit={{ opacity: 0, y: -50, scale: 0.9 }}
+            className={`fixed top-4 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-2xl shadow-2xl flex items-center gap-3 backdrop-blur-md border ${
+              notification.type === "success" 
+                ? "bg-green-500/90 text-white border-green-400" 
+                : "bg-red-500/90 text-white border-red-400"
+            }`}
+          >
+            <span className="material-symbols-outlined">
+              {notification.type === "success" ? "check_circle" : "error"}
+            </span>
+            <span className="font-semibold">{notification.message}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ORDER DETAILS POPUP (OUTSIDE BLUR) */}
       {showOrderDetails && selectedOrder && (

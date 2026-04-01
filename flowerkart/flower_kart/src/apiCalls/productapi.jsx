@@ -40,8 +40,12 @@ export const getProfile = async (id) => {
 export const updateProfile = async (id, formData) => {
   const URL = `${import.meta.env.VITE_API_URL}/profileUpdate`;
   try {
+    const token = localStorage.getItem("token");
     const response = await axios.post(URL, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: { 
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`
+      },
     });
     return response.data;
   } catch (error) {
