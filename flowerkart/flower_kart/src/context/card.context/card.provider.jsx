@@ -12,7 +12,16 @@ const initialState = {
 export const CartProvider = ({ children }) => {
   const [{ cart, favourite }, cartDispatch] = useReducer(
     cartReducer,
-    initialState
+    initialState,
+    (initial) => {
+      // Load guest cart from localStorage for instant display on refresh
+      const savedCart = localStorage.getItem("cart");
+      const savedFav = localStorage.getItem("favourite");
+      return {
+        cart: savedCart ? JSON.parse(savedCart) : initial.cart,
+        favourite: savedFav ? JSON.parse(savedFav) : initial.favourite,
+      };
+    }
   );
 
   const { user } = useAuth();
@@ -20,8 +29,8 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     if (user?._id) {
-      // Use VITE_BASE_API_URL here as it's not an auth route
-      axios.get(`${import.meta.env.VITE_BASE_API_URL}/user-data/${user._id}`)
+      // Use VITE_API_URL here as we moved user-data under /api/auth
+      axios.get(`${import.meta.env.VITE_API_URL}/user-data/${user._id}`)
         .then((res) => {
           if (res.data) {
             // MERGE_DATA ensures Guest items are not lost when logging in
@@ -38,14 +47,19 @@ export const CartProvider = ({ children }) => {
         });
     } else {
       isInitialized.current = false;
-      cartDispatch({ type: "SET_INITIAL_DATA", payload: { cart: [], favourite: [] } });
+      // When logged out, we don't clear the cart entirely here anymore
+      // We let the guest cart stay in localStorage
     }
   }, [user?._id]);
 
   useEffect(() => {
+    // Save to localStorage whenever cart or favourite changes
+    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("favourite", JSON.stringify(favourite));
+
     if (isInitialized.current && user?._id) {
-      // Use VITE_BASE_API_URL here as well
-      axios.post(`${import.meta.env.VITE_BASE_API_URL}/user-data/${user._id}`, {
+      // Use VITE_API_URL here as well
+      axios.post(`${import.meta.env.VITE_API_URL}/user-data/${user._id}`, {
         cart,
         favourite
       }).catch(err => console.error("Failed to sync user cart data", err));

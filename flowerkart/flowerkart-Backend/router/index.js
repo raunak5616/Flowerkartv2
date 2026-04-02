@@ -5,6 +5,8 @@ import { getProfile, updateProfile } from "../authControler/profile.controller.j
 import { upload } from "../middleware/upload.js";
 import { verifyToken } from "../middleware/auth.js";
 import { submitReview } from "../authControler/reviewController.js";
+import { createOrder, verifyPayment, updatePaymentStatus } from "../authControler/payment.controller.js";
+import { getUserData, updateUserData, getUserOrders } from "../authControler/user.controller.js";
 
 const router = express.Router();
 router.use((req, res, next) => {
@@ -19,5 +21,15 @@ router.post("/signup",signup);
 router.post("/login",Login);
 router.post("/profileUpdate",verifyToken,upload.single("images"),updateProfile);
 router.post("/review/:orderId", verifyToken, submitReview);
+
+// Razorpay Routes
+router.post("/create-order", createOrder);
+router.post("/verify-payment", verifyPayment);
+router.post("/update-payment-status", updatePaymentStatus);
+
+// User Data & Profile Sync
+router.get("/user-data/:userId", getUserData);
+router.post("/user-data/:userId", updateUserData);
+router.get("/orders/:userId", getUserOrders);
 
 export default router;

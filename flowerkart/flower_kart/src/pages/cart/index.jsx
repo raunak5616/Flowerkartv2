@@ -31,7 +31,7 @@ export const Cart = () => {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_BASE_API_URL}/create-order`,
+        `${import.meta.env.VITE_API_URL}/create-order`,
         { amount: subtotal, userId: user?._id, cartItems: cart, deliveryAddress: address, coordinates },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -49,7 +49,7 @@ export const Cart = () => {
         handler: async function (response) {
           setLoading(false);
           const verifyRes = await axios.post(
-            `${import.meta.env.VITE_BASE_API_URL}/verify-payment`,
+            `${import.meta.env.VITE_API_URL}/verify-payment`,
             { ...response },
             { headers: { "Content-Type": "application/json" } }
           );
@@ -69,7 +69,7 @@ export const Cart = () => {
             setLoading(false);
             try {
               await axios.post(
-                `${import.meta.env.VITE_BASE_API_URL}/update-payment-status`,
+                `${import.meta.env.VITE_API_URL}/update-payment-status`,
                 { razorpay_order_id: order.id, status: "Cancelled" },
                 { headers: { "Content-Type": "application/json" } }
               );
