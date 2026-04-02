@@ -11,6 +11,7 @@ import UserData from "./mongodb/models/userDataModel.js";
 import Product from "./mongodb/models/productModel.js";
 import UserAccount from "./mongodb/models/userModel.js";
 import ShopAccount from "./mongodb/models/shop.model.js";
+import cloudinary from "./config/cloudinary.js";
 
 dotenv.config();
 console.log("MONGO_URI LOADED:", !!process.env.MONGO_URI, "Length:", process.env.MONGO_URI?.length);
@@ -216,10 +217,46 @@ app.get("/api/admin/shops", async (req, res) => {
 
 app.delete("/api/admin/shops/:id", async (req, res) => {
   try {
-    await ShopAccount.findByIdAndDelete(req.params.id);
-    res.json({ success: true });
+    const shopId = req.params.id;
+    
+    // 1. Fetch products to get public_ids for Cloudinary cleanup before deletion
+    const productsForCleanup = await Product.find({ shopId });
+    const productPublicIds = productsForCleanup.flatMap(p => p.images?.filter(img => img.public_id).map(img => img.public_id) || []);
+    
+    // 2. Delete all products from database
+    const deletedProducts = await Product.deleteMany({ shopId });
+    console.log(`[ADMIN] Deleted ${deletedProducts.deletedCount} products for shop ${shopId}`);
+    
+    // 3. Delete the shop itself from database
+    const shopToDelete = await ShopAccount.findById(shopId);
+    if (!shopToDelete) {
+      return res.status(404).json({ error: "Shop not found" });
+    }
+    const shopPublicId = shopToDelete.images?.public_id;
+    await ShopAccount.findByIdAndDelete(shopId);
+    
+    // 4. Cleanup Cloudinary Images (Background cleanup)
+    if (productPublicIds.length > 0 || shopPublicId) {
+      (async () => {
+        try {
+          if (productPublicIds.length > 0) {
+            await cloudinary.api.delete_resources(productPublicIds);
+            console.log(`[ADMIN] Cleaned up ${productPublicIds.length} product images from Cloudinary`);
+          }
+          if (shopPublicId) {
+            await cloudinary.uploader.destroy(shopPublicId);
+            console.log(`[ADMIN] Cleaned up shop image from Cloudinary`);
+          }
+        } catch (cloudinaryErr) {
+          console.error("[ADMIN] Cloudinary Cleanup Warning:", cloudinaryErr.message || cloudinaryErr);
+        }
+      })();
+    }
+
+    res.json({ success: true, message: "Shop and associated products deleted successfully" });
   } catch (err) {
-    res.status(500).json({ error: "Failed to delete shop" });
+    console.error("Error deleting shop and products:", err);
+    res.status(500).json({ error: "Failed to delete shop and its products" });
   }
 });
 

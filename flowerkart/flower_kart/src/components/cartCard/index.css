@@ -1,7 +1,7 @@
 /* PAGE LAYOUT */
 .cart-page {
   display: flex;
-  min-height: 100vh;
+  min-height: 100svh;
   background: #f6f7fb;
   padding: 24px;
   gap: 24px;

@@ -33,7 +33,7 @@ const AppRouter = () => {
         animate="animate"
         exit="exit"
         transition={{ duration: 0.2, ease: "easeInOut" }}
-        style={{ minHeight: "80vh", width: "100%" }}
+        className="min-h-svh w-full flex flex-col"
     >
         {children}
     </motion.div>

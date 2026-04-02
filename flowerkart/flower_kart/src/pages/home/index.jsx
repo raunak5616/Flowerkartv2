@@ -21,21 +21,35 @@ const Home = () => {
     fetchProducts();
   }, []); // ✅ runs once on mount
 
-  if (loading) {
-    return <p className="text-center mt-10">Loading products...</p>;
-  }
+  const SkeletonCard = () => (
+    <div className="bg-white rounded-[2rem] p-4 border border-gray-100 flex flex-col h-[480px] w-full animate-skeleton">
+      <div className="h-56 w-full rounded-[1.5rem] bg-gray-100 mb-6" />
+      <div className="flex-1 space-y-4">
+        <div className="h-4 w-1/4 bg-gray-100 rounded" />
+        <div className="h-6 w-3/4 bg-gray-100 rounded" />
+        <div className="h-4 w-full bg-gray-100 rounded" />
+        <div className="mt-auto flex justify-between items-center">
+          <div className="h-10 w-24 bg-gray-100 rounded" />
+          <div className="h-12 w-12 bg-gray-100 rounded-2xl" />
+        </div>
+      </div>
+    </div>
+  );
 
   return (
-    <main className="flex flex-wrap gap-6 justify-center mt-4">
-      {products.map((product) => (
-        <div
-          key={product._id || product.id}
-          className="flex"
-          style={{ width: "345px" }}
-        >
-          <RecipeReviewCard product={product} />
-        </div>
-      ))}
+    <main className="max-w-7xl mx-auto px-4 py-8 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {loading ? (
+          Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
+        ) : (
+          products.map((product) => (
+            <RecipeReviewCard 
+              key={product._id || product.id} 
+              product={product} 
+            />
+          ))
+        )}
+      </div>
     </main>
   );
 };

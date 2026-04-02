@@ -25,7 +25,7 @@ export default function RecipeReviewCard({ product }) {
   };
 
   return (
-    <div className="group relative bg-white rounded-[2rem] p-4 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(244,63,94,0.15)] hover:-translate-y-2 border border-gray-100 flex flex-col h-[480px] w-full max-w-[320px] mx-auto overflow-hidden">
+    <div className="group relative bg-white rounded-[2rem] p-4 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(244,63,94,0.15)] hover:-translate-y-2 border border-gray-100 flex flex-col h-[480px] w-full overflow-hidden">
       
       {/* Favorite Button Overlay */}
       <button 
@@ -42,7 +42,7 @@ export default function RecipeReviewCard({ product }) {
       </button>
 
       {/* Image Section */}
-      <div className="relative h-56 w-full rounded-[1.5rem] overflow-hidden bg-gray-50 mb-6 group-hover:bg-red-50/30 transition-colors pointer-events-none">
+      <div className="relative aspect-square w-full rounded-[1.5rem] overflow-hidden bg-gray-50 mb-6 group-hover:bg-red-50/30 transition-colors pointer-events-none">
         <img 
           src={url || "/no-image.png"} 
           alt={product?.name}
