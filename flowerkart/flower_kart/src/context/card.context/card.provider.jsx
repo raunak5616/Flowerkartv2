@@ -20,12 +20,17 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     if (user?._id) {
-      axios.get(`${import.meta.env.VITE_API_URL}/user-data/${user._id}`)
+      // Use VITE_BASE_API_URL here as it's not an auth route
+      axios.get(`${import.meta.env.VITE_BASE_API_URL}/user-data/${user._id}`)
         .then((res) => {
           if (res.data) {
-            cartDispatch({ type: "SET_INITIAL_DATA", payload: res.data });
+            // MERGE_DATA ensures Guest items are not lost when logging in
+            cartDispatch({ type: "MERGE_DATA", payload: res.data });
           }
-          isInitialized.current = true;
+          // Only after loading and merging is the provider 'initialized' for outgoing sync
+          setTimeout(() => {
+            isInitialized.current = true;
+          }, 500); 
         })
         .catch((err) => {
           console.error("Failed to load user cart data", err);
@@ -39,7 +44,8 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     if (isInitialized.current && user?._id) {
-      axios.post(`${import.meta.env.VITE_API_URL}/user-data/${user._id}`, {
+      // Use VITE_BASE_API_URL here as well
+      axios.post(`${import.meta.env.VITE_BASE_API_URL}/user-data/${user._id}`, {
         cart,
         favourite
       }).catch(err => console.error("Failed to sync user cart data", err));

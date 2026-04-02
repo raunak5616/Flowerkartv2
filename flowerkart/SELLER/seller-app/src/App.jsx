@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { SellerAuthProvider } from "./context/sellerAuth.context"; // 🔥 ADD THIS
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -10,10 +10,11 @@ import Signup from "./pages/Signup";
 import { UploadProduct } from "./pages/Upload.Products";
 import { ManageProducts } from "./pages/Manage.Products";
 import { Bills } from "./pages/BIlls";
+import NotFound from "./pages/NotFound";
 
 const App = () => (
   <SellerAuthProvider> {/* 🔥 WRAP EVERYTHING */}
-    <BrowserRouter>
+    <Router>
       <Navbar />
 
       <Routes>
@@ -73,9 +74,10 @@ const App = () => (
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
-    </BrowserRouter>
+    </Router>
   </SellerAuthProvider>
 );
 
