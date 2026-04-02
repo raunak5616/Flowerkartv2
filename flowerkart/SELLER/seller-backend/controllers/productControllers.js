@@ -125,3 +125,53 @@ export const updateOrderStatus = async (req, res) => {
     res.status(500).json({ message: "Failed to update order status", error: error.message });
   }
 };
+
+export const getDashboardStats = async (req, res) => {
+  try {
+    const { shopId } = req.params;
+
+    // 1. Products Live
+    const productsLive = await Product.countDocuments({ shopId });
+
+    // 2. Orders Stats
+    const orders = await Order.find({ status: { $ne: "Cancelled" } });
+
+    let totalSales = 0;
+    let activeOrdersCount = 0;
+    const uniqueCustomers = new Set();
+
+    orders.forEach(order => {
+      const shopItems = order.items.filter(item => item.shopId?.toString() === shopId);
+      
+      if (shopItems.length > 0) {
+        const shopAmount = shopItems.reduce((sum, item) => sum + (item.price * (item.qty || 1)), 0);
+        
+        // Add to total sales if order is successful or in progress
+        if (["Success", "Accepted", "Shipped", "Delivered"].includes(order.status)) {
+          totalSales += shopAmount;
+        }
+
+        // Active Orders are those currently being handled
+        if (["Pending", "Accepted", "Shipped", "Processing"].includes(order.status)) {
+          activeOrdersCount++;
+        }
+
+        if (order.userId) {
+          uniqueCustomers.add(order.userId.toString());
+        }
+      }
+    });
+
+    res.status(200).json({
+      success: true,
+      stats: {
+        totalSales,
+        activeOrders: activeOrdersCount,
+        totalCustomers: uniqueCustomers.size,
+        productsLive
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Failed to fetch dashboard stats", error: error.message });
+  }
+};

@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { 
   ShoppingBag, 
   Upload, 
@@ -61,6 +63,41 @@ const StatsCard = ({ title, value, icon, trend }) => (
 
 const Dashboard = () => {
     const navigate = useNavigate();
+    const [stats, setStats] = useState({
+        totalSales: 0,
+        activeOrders: 0,
+        totalCustomers: 0,
+        productsLive: 0
+    });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const shopId = localStorage.getItem("shopId");
+                if (!shopId) return;
+
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/stats/${shopId}`);
+                if (response.data.success) {
+                    setStats(response.data.stats);
+                }
+            } catch (error) {
+                console.error("Error fetching dashboard stats:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchStats();
+    }, []);
+
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            maximumFractionDigits: 0
+        }).format(amount);
+    };
     
     return (
         <div className="min-h-screen bg-slate-50/50 p-4 md:p-8">
@@ -93,24 +130,23 @@ const Dashboard = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <StatsCard 
                         title="Total Sales" 
-                        value="₹45,280" 
+                        value={loading ? "..." : formatCurrency(stats.totalSales)} 
                         icon={<TrendingUp className="w-5 h-5" />} 
-                        trend="+12%" 
+                        trend={stats.totalSales > 0 ? "+Live" : ""} 
                     />
                     <StatsCard 
                         title="Active Orders" 
-                        value="12" 
+                        value={loading ? "..." : stats.activeOrders} 
                         icon={<ShoppingBag className="w-5 h-5" />} 
                     />
                     <StatsCard 
                         title="Total Customers" 
-                        value="1,240" 
+                        value={loading ? "..." : stats.totalCustomers} 
                         icon={<Users className="w-5 h-5" />} 
-                        trend="+5%" 
                     />
                     <StatsCard 
                         title="Products Live" 
-                        value="84" 
+                        value={loading ? "..." : stats.productsLive} 
                         icon={<Package className="w-5 h-5" />} 
                     />
                 </div>
