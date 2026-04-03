@@ -33,7 +33,12 @@ export default function Profile() {
     const fetchOrders = async (id) => {
       try {
         console.log("Fetching orders for userId:", id);
-        const response = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/orders/${id}`);
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/orders/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         console.log("Orders received:", response.data);
         setOrders(response.data);
       } catch (err) {

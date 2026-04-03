@@ -36,10 +36,14 @@ export const updateUserData = async (req, res) => {
 
 export const getUserOrders = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId = req.user.id; 
+    if (!userId) {
+      return res.status(401).json({ error: "Unauthorized - User ID not found in token" });
+    }
     const orders = await Order.find({ userId: new mongoose.Types.ObjectId(userId) }).sort({ createdAt: -1 });
     res.json(orders);
   } catch (err) {
+    console.error("Fetch orders error:", err);
     res.status(500).json({ error: "Failed to fetch orders" });
   }
 };

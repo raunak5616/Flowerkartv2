@@ -30,6 +30,6 @@ router.post("/update-payment-status", updatePaymentStatus);
 // User Data & Profile Sync
 router.get("/user-data/:userId", getUserData);
 router.post("/user-data/:userId", updateUserData);
-router.get("/orders/:userId", getUserOrders);
+router.get("/orders/:userId", verifyToken, getUserOrders);
 
 export default router;
