@@ -17,6 +17,13 @@ console.log("MONGO_URI LOADED:", !!process.env.MONGO_URI, "Length:", process.env
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const compression = await import("compression").then((mod) => mod.default).catch(() => null);
+if (compression) {
+  app.use(compression());
+} else {
+  console.warn("[PERF] compression package not installed; run `npm install compression` to enable compressed responses.");
+}
+
 app.use(express.json());
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);

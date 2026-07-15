@@ -19,6 +19,7 @@ import { Fragment, useState, useEffect } from "react";
 import { useAuth } from "../../context/auth.context";
 import { getProfile } from "../../apiCalls/productapi";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCart } from "../../context/card.context/useCartContext";
 const navigation = [
   { name: "Home", href: "/", icon: "home" },
   { name: "Shop", href: "/shop", icon: "storefront" },
@@ -28,6 +29,7 @@ const navigation = [
 
 export default function Navbar() {
   const { isAuthenticated, logout, user } = useAuth();
+  const { cart, favourite } = useCart();
   const navigate = useNavigate();
   const { address, setAddress, coordinates, detectLocation } = useLocationContext();
   const [avatar, setAvatar] = useState(null);
@@ -144,15 +146,22 @@ export default function Navbar() {
             {/* CART */}
             <button
               onClick={handleCartClick}
-              className="p-2 rounded-md hover:bg-gray-100"
+              aria-label={`Cart with ${cart.length} items`}
+              className="relative p-2 rounded-md hover:bg-gray-100"
             >
               <span className="material-symbols-outlined text-[22px]">
                 shopping_cart
               </span>
+              {cart.length > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-600 px-1 text-[10px] font-black text-white">
+                  {cart.length}
+                </span>
+              )}
             </button>
 
             <button
               onClick={() => navigate("/favorite")}
+              aria-label={`Wishlist with ${favourite.length} items`}
               className="hidden lg:block p-2 rounded-md hover:bg-gray-100">
               <span className="material-symbols-outlined">
                 favorite

@@ -7,6 +7,7 @@ import Contact from "../../pages/contact";
 import Shop from "../../pages/shop";
 import Support from "../../pages/support";
 import Product from "../../pages/product";
+import ProductDetails from "../../pages/productDetails";
 import Login from "../../pages/login";
 import Signup from "../../pages/signup";
 import Profile from "../../pages/profile";
@@ -56,6 +57,7 @@ const AppRouter = () => {
           <Route path="/shop" element={<Page><Shop /></Page>} />
           <Route path="/Support" element={<Page><Support /></Page>} />
           <Route path="/Products" element={<Page><Product /></Page>} />
+          <Route path="/products/:id" element={<Page><ProductDetails /></Page>} />
           <Route path="/login" element={<Page><Login /></Page>} />
           <Route path="/signup" element={<Page><Signup /></Page>} />
           <Route path="/profile" element={<Page><Profile /></Page>} />

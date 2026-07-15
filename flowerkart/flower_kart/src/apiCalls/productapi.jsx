@@ -1,10 +1,23 @@
 import axios from "axios";
 
+let productsCache = null;
+let productsRequest = null;
+
+export const getCachedProducts = () => productsCache || [];
+
 export const getProducts = async () => {
   const URL = import.meta.env.VITE_API_URL + "/products";
   try {
-    const response = await axios.get(URL);
-    return response.data;
+    if (productsCache) return productsCache;
+    if (!productsRequest) {
+      productsRequest = axios.get(URL).then((response) => {
+        productsCache = response.data;
+        return productsCache;
+      }).finally(() => {
+        productsRequest = null;
+      });
+    }
+    return productsRequest;
   } catch (error) {
     console.error("🔥 GET PRODUCTS ERROR 🔥", error);
     throw error;

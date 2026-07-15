@@ -2,10 +2,19 @@ import mongoose from "mongoose";
 import productModel from "../mongodb/models/productModel.js"
 import user from "../mongodb/models/shop.model.js";
 
+const PRODUCT_LIST_FIELDS = "name category price discount stock description images shopId rating numReviews createdAt updatedAt";
+
 export const getProducts = async (req, res) => {
     try {
         console.log("🚀 GET PRODUCTS HIT");
-        const product = await productModel.find();
+        const startedAt = process.hrtime.bigint();
+        const product = await productModel
+            .find({})
+            .select(PRODUCT_LIST_FIELDS)
+            .sort({ createdAt: -1 })
+            .lean();
+        const durationMs = Number(process.hrtime.bigint() - startedAt) / 1e6;
+        console.log(`[PERF] products.find count=${product.length} db=${durationMs.toFixed(2)}ms`);
         res.status(200).json(product);
     } catch (error) {
         console.log("🔥 GET PRODUCTS ERROR 🔥", error)
@@ -20,7 +29,7 @@ export const getProducts = async (req, res) => {
 export const getShop = async (req, res) => {
     try {
         console.log("🚀 GET SHOP HIT");
-        const shop = await user.find({ role: "seller" });
+        const shop = await user.find({ role: "seller" }).lean();
         console.log("✅ SHOPS FOUND:", shop.length);
         res.status(200).json(shop);
     } catch (error) {
@@ -43,9 +52,14 @@ export const getProductsByShopId = async (req, res) => {
             return res.status(400).json({ message: "Invalid shop ID" });
         }
 
-        const products = await productModel.find({
-            shopId: new mongoose.Types.ObjectId(id)
-        });
+        const startedAt = process.hrtime.bigint();
+        const products = await productModel
+            .find({ shopId: new mongoose.Types.ObjectId(id) })
+            .select(PRODUCT_LIST_FIELDS)
+            .sort({ createdAt: -1 })
+            .lean();
+        const durationMs = Number(process.hrtime.bigint() - startedAt) / 1e6;
+        console.log(`[PERF] products.findByShop shopId=${id} count=${products.length} db=${durationMs.toFixed(2)}ms`);
 
         console.log(`✅ FOUND ${products.length} PRODUCTS FOR SHOP:`, id);
         res.status(200).json(products);

@@ -1,5 +1,6 @@
 import Product from "../mongodb/model/index.js";
 import Order from "../mongodb/model/orderModel.js";
+const PRODUCT_LIST_FIELDS = "name category price discount stock description images shopId createdAt updatedAt";
 console.log("📦 productControllers file LOADED");
 
 export const createProduct = async (req, res) => {
@@ -33,7 +34,11 @@ export const createProduct = async (req, res) => {
 export const getProductsByShop = async (req, res) => {
   try {
     const { shopId } = req.params;
-    const products = await Product.find({ shopId });
+    const products = await Product
+      .find({ shopId })
+      .select(PRODUCT_LIST_FIELDS)
+      .sort({ createdAt: -1 })
+      .lean();
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch products", error: error.message });
@@ -63,7 +68,7 @@ export const deleteProduct = async (req, res) => {
 export const getBillsByShop = async (req, res) => {
   try {
     const { shopId } = req.params;
-    const orders = await Order.find({ status: { $in: ["Success", "Accepted", "Shipped", "Delivered"] } }).sort({ createdAt: -1 });
+    const orders = await Order.find({ status: { $in: ["Success", "Accepted", "Shipped", "Delivered"] } }).sort({ createdAt: -1 }).lean();
 
     const shopBills = orders.map(order => {
       const shopItems = order.items.filter(item => item.shopId?.toString() === shopId);
@@ -91,13 +96,13 @@ export const getBillsByShop = async (req, res) => {
 export const getOrdersByShop = async (req, res) => {
   try {
     const { shopId } = req.params;
-    const orders = await Order.find({ status: { $ne: "Cancelled" } }).sort({ createdAt: -1 });
+    const orders = await Order.find({ status: { $ne: "Cancelled" } }).sort({ createdAt: -1 }).lean();
 
     const shopOrders = orders.map(order => {
       const shopItems = order.items.filter(item => item.shopId?.toString() === shopId);
       if (shopItems.length > 0) {
         return {
-          ...order._doc,
+          ...order,
           items: shopItems,
           shopAmount: shopItems.reduce((sum, item) => sum + (item.price * (item.qty || 1)), 0)
         };
@@ -134,7 +139,7 @@ export const getDashboardStats = async (req, res) => {
     const productsLive = await Product.countDocuments({ shopId });
 
     // 2. Orders Stats
-    const orders = await Order.find({ status: { $ne: "Cancelled" } });
+    const orders = await Order.find({ status: { $ne: "Cancelled" } }).lean();
 
     let totalSales = 0;
     let activeOrdersCount = 0;
