@@ -1,15 +1,15 @@
 import { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Eye, 
-  EyeOff, 
-  User, 
-  Mail, 
-  Phone, 
-  Lock, 
-  Check, 
-  X, 
+import {
+  Eye,
+  EyeOff,
+  User,
+  Mail,
+  Phone,
+  Lock,
+  Check,
+  X,
   ArrowRight,
   Sparkles,
   ShieldAlert
@@ -19,7 +19,7 @@ import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
-  
+
   const [showTnC, setShowTnC] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [password, setPassword] = useState("");
@@ -65,7 +65,7 @@ const Signup = () => {
     setError("");
     setIsLoading(true);
 
-    try { 
+    try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/signup`,
         formData,
@@ -83,7 +83,7 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2 bg-gray-50 text-left">
-      
+
       {/* LEFT: Premium Illustration Panel (Desktop only) */}
       <div className="hidden lg:flex flex-col justify-between p-12 bg-gray-950 relative overflow-hidden text-white">
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-rose-500/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
@@ -113,7 +113,7 @@ const Signup = () => {
 
       {/* RIGHT: Register Card Panel */}
       <div className="flex items-center justify-center p-6 md:p-12">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           className="w-full max-w-md bg-white rounded-3xl p-8 border border-gray-100 shadow-sm"
@@ -126,7 +126,7 @@ const Signup = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            
+
             {error && (
               <div className="p-3 bg-red-50 border border-red-100 text-red-600 rounded-xl text-xs font-bold leading-normal flex items-start gap-2">
                 <ShieldAlert className="h-4 w-4 shrink-0 mt-0.5" />
@@ -142,7 +142,7 @@ const Signup = () => {
                 <input
                   type="text"
                   name="name"
-                  placeholder="John Doe"
+                  placeholder="NAME"
                   onChange={onHandleChange}
                   required
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-xs font-semibold focus:outline-none focus:border-rose-500 focus:ring-4 focus:ring-rose-50 placeholder:text-gray-300"
@@ -158,7 +158,7 @@ const Signup = () => {
                 <input
                   type="email"
                   name="email"
-                  placeholder="name@domain.com"
+                  placeholder="email@.com"
                   onChange={onHandleChange}
                   required
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-xs font-semibold focus:outline-none focus:border-rose-500 focus:ring-4 focus:ring-rose-50 placeholder:text-gray-300"
@@ -258,11 +258,10 @@ const Signup = () => {
               disabled={isLoading || !agreed}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className={`w-full py-3.5 rounded-xl text-white font-bold text-xs uppercase tracking-widest transition flex items-center justify-center gap-2 shadow-lg ${
-                agreed && !isLoading
+              className={`w-full py-3.5 rounded-xl text-white font-bold text-xs uppercase tracking-widest transition flex items-center justify-center gap-2 shadow-lg ${agreed && !isLoading
                   ? "bg-gray-950 hover:bg-rose-600 shadow-gray-100 cursor-pointer"
                   : "bg-gray-300 cursor-not-allowed shadow-none"
-              }`}
+                }`}
             >
               {isLoading ? (
                 <>
