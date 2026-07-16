@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  HelpCircle, 
-  Package, 
-  CreditCard, 
-  RefreshCcw, 
-  Mail, 
-  MessageSquare, 
-  ChevronDown, 
+import {
+  HelpCircle,
+  Package,
+  CreditCard,
+  RefreshCcw,
+  Mail,
+  MessageSquare,
+  ChevronDown,
   Sparkles,
   Send,
   User,
@@ -58,7 +58,7 @@ export default function Support() {
 
   return (
     <div className="min-h-screen bg-gray-50/50 text-left pb-16">
-      
+
       {/* Premium Hero Title */}
       <section className="bg-gray-950 text-white py-14 overflow-hidden relative">
         <div className="absolute top-0 left-0 w-80 h-80 bg-rose-500/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl pointer-events-none" />
@@ -101,7 +101,7 @@ export default function Support() {
 
       {/* DUAL COLUMN: FORM vs FAQ */}
       <section className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 mt-6">
-        
+
         {/* Support Request Form */}
         <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-6">
           <div className="text-left">
@@ -110,7 +110,7 @@ export default function Support() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            
+
             {isSubmitted && (
               <div className="p-3.5 bg-emerald-50 border border-emerald-100 text-emerald-700 rounded-xl text-xs font-bold flex items-center gap-2">
                 <CheckCircle2 className="h-4.5 w-4.5 text-emerald-600 shrink-0" />
@@ -126,7 +126,7 @@ export default function Support() {
                   type="text"
                   name="name"
                   value={formData.name}
-                  placeholder="John Doe"
+                  placeholder="FlowerKart"
                   onChange={handleChange}
                   required
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-xs font-semibold focus:outline-none focus:border-rose-500 focus:ring-4 focus:ring-rose-50"
@@ -142,7 +142,7 @@ export default function Support() {
                   type="email"
                   name="email"
                   value={formData.email}
-                  placeholder="name@domain.com"
+                  placeholder="flowerKart@.com"
                   onChange={handleChange}
                   required
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-xs font-semibold focus:outline-none focus:border-rose-500 focus:ring-4 focus:ring-rose-50"
@@ -186,8 +186,8 @@ export default function Support() {
             {faqData.map((faq, index) => {
               const isOpen = openFaqIndex === index;
               return (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden"
                 >
                   <button
