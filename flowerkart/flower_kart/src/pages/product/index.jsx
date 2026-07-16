@@ -210,7 +210,7 @@ export default function Product() {
   );
 
   return (
-    <main className="min-h-screen bg-gray-50/50">
+    <main className="min-h-screen bg-gray-50/50 pt-16 sm:pt-20">
       
       {/* Search and Header Section */}
       <section className="border-b border-gray-100 bg-white">

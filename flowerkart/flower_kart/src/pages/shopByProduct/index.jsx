@@ -28,7 +28,7 @@ export const ShopByProduct = () => {
   }, [id]);
 
   return (
-    <main className="min-h-screen bg-gray-50/50 py-10 px-6 text-left">
+    <main className="min-h-screen bg-gray-50/50 pt-20 sm:pt-28 pb-16 px-6 text-left">
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Back navigation */}

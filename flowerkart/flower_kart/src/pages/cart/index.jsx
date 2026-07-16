@@ -162,7 +162,7 @@ export const Cart = () => {
 
   if (cart.length === 0) {
     return (
-      <main className="min-h-screen bg-gray-50/50 px-6 py-16 text-center">
+      <main className="min-h-screen bg-gray-50/50 px-6 pt-20 sm:pt-28 pb-16 text-center">
         <EmptyState
           icon={ShoppingBag}
           title="Your cart is empty"
@@ -175,7 +175,7 @@ export const Cart = () => {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50/50 px-3.5 sm:px-6 py-8 sm:py-12 text-left">
+    <main className="min-h-screen bg-gray-50/50 px-3.5 sm:px-6 pt-20 sm:pt-28 pb-12 sm:pb-16 text-left">
       <Toast {...toast} />
       <div className="mx-auto max-w-7xl">
         

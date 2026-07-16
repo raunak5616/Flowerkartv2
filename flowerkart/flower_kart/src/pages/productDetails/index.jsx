@@ -128,7 +128,7 @@ export default function ProductDetails() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50/50 px-6 py-10 text-left pb-24 md:pb-10 relative">
+    <main className="min-h-screen bg-gray-50/50 px-6 pt-20 sm:pt-28 pb-24 md:pb-16 text-left relative">
       <div className="mx-auto max-w-7xl">
         
         {/* Back Button */}

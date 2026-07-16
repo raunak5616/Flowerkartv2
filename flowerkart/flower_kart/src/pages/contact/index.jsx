@@ -36,7 +36,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50 text-left py-10 px-6">
+    <div className="min-h-screen bg-gray-50/50 text-left pt-20 sm:pt-28 pb-16 px-6">
       <div className="max-w-6xl mx-auto space-y-12">
         
         {/* Title Section */}

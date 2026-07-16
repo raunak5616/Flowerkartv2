@@ -10,7 +10,7 @@ const Favorite = () => {
   const { favourite } = useCart();
 
   return (
-    <main className="min-h-screen bg-gray-50/50 px-6 py-10 text-left">
+    <main className="min-h-screen bg-gray-50/50 px-6 pt-20 sm:pt-28 pb-10 text-left">
       <div className="mx-auto max-w-7xl space-y-8">
         
         {/* Header Section */}
