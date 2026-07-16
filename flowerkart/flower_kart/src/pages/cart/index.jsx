@@ -229,7 +229,7 @@ export const Cart = () => {
         <div className="grid gap-8 lg:grid-cols-[1fr_390px]">
           
           {/* LEFT: CART ITEMS */}
-          <section className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm md:p-6 space-y-5">
+          <section className="rounded-3xl border border-gray-100 bg-white p-3.5 sm:p-6 shadow-sm space-y-5">
             <div className="flex items-center justify-between border-b border-gray-50 pb-4">
               <h2 className="text-base font-black text-gray-900">Blooms Selection ({cart.length})</h2>
               <button
@@ -249,7 +249,7 @@ export const Cart = () => {
           </section>
 
           {/* RIGHT: ORDER BREAKDOWN SIDEBAR */}
-          <aside className="h-fit rounded-3xl border border-gray-100 bg-white p-6 shadow-sm lg:sticky lg:top-24 space-y-6">
+          <aside className="h-fit rounded-3xl border border-gray-100 bg-white p-4 sm:p-6 shadow-sm lg:sticky lg:top-24 space-y-6">
             
             {/* Delivery address panel */}
             <div>
@@ -346,13 +346,13 @@ export const Cart = () => {
             </motion.button>
 
             {/* Guarantee metrics */}
-            <div className="grid grid-cols-2 gap-3 pt-2">
-              <div className="rounded-2xl bg-rose-50/50 border border-rose-100/30 p-3 text-[10px] font-black text-rose-700 text-center flex flex-col items-center justify-center gap-1.5 shadow-sm">
-                <Truck className="h-5 w-5 text-rose-600" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <div className="rounded-2xl bg-rose-50/50 border border-rose-100/30 p-3 text-[10px] font-black text-rose-700 text-center flex flex-row sm:flex-col items-center justify-center gap-2 sm:gap-1.5 shadow-sm">
+                <Truck className="h-4 sm:h-5 w-4 sm:w-5 text-rose-600 shrink-0" />
                 <span>30-60m fresh delivery</span>
               </div>
-              <div className="rounded-2xl bg-emerald-50/50 border border-emerald-100/30 p-3 text-[10px] font-black text-emerald-700 text-center flex flex-col items-center justify-center gap-1.5 shadow-sm">
-                <ShieldCheck className="h-5 w-5 text-emerald-600" />
+              <div className="rounded-2xl bg-emerald-50/50 border border-emerald-100/30 p-3 text-[10px] font-black text-emerald-700 text-center flex flex-row sm:flex-col items-center justify-center gap-2 sm:gap-1.5 shadow-sm">
+                <ShieldCheck className="h-4 sm:h-5 w-4 sm:w-5 text-emerald-600 shrink-0" />
                 <span>Encrypted payments</span>
               </div>
             </div>
