@@ -527,22 +527,7 @@ export default function Navbar() {
                       <ChevronRight className="h-4 w-4 opacity-45" />
                     </NavLink>
                   ))}
-                  {isAuthenticated && (
-                    <NavLink
-                      to="/seller-dashboard"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={({ isActive }) =>
-                        `flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-                          isActive
-                            ? "bg-rose-50 text-rose-600 border border-rose-100/50"
-                            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                        }`
-                      }
-                    >
-                      <span>Seller Dashboard</span>
-                      <ChevronRight className="h-4 w-4 opacity-45" />
-                    </NavLink>
-                  )}
+
                 </div>
 
                 {/* Mobile Auth actions */}

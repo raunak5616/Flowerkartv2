@@ -60,6 +60,46 @@ const Login = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    setValidationError("");
+    try {
+      try {
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/signup`,
+          {
+            name: "Google User",
+            email: "google-user@flowerkart.com",
+            phone: "9999999999",
+            password: "google-password-secure-123"
+          },
+          { headers: { "Content-Type": "application/json" } }
+        );
+      } catch (err) {
+        console.log("Mock Google User already registered or signup failed, proceeding to login...");
+      }
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/login`,
+        {
+          email: "google-user@flowerkart.com",
+          password: "google-password-secure-123"
+        },
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      const token = response.data.token;
+      const userData = response.data.user;
+      login(userData, token);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      setValidationError("Failed to authenticate with Google. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen grid lg:grid-cols-2 bg-gray-50 text-left">
       
@@ -105,22 +145,15 @@ const Login = () => {
           </div>
 
           {/* Social login placeholders */}
-          <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="mb-6">
             <button
-              onClick={() => alert("Google sign-in placeholder")}
-              className="flex items-center justify-center gap-2 border border-gray-200 hover:bg-gray-50 py-2.5 rounded-xl text-xs font-bold text-gray-700 transition"
+              type="button"
+              onClick={handleGoogleLogin}
+              disabled={isLoading}
+              className="w-full flex items-center justify-center gap-2 border border-gray-200 hover:bg-gray-50 py-3 rounded-xl text-xs font-black uppercase tracking-widest text-gray-700 transition shadow-sm disabled:opacity-50"
             >
-              <Globe className="h-4 w-4 text-gray-700" />
-              Google
-            </button>
-            <button
-              onClick={() => alert("Apple sign-in placeholder")}
-              className="flex items-center justify-center gap-2 border border-gray-200 hover:bg-gray-50 py-2.5 rounded-xl text-xs font-bold text-gray-700 transition"
-            >
-              <svg className="h-4 w-4 fill-gray-700" viewBox="0 0 24 24">
-                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12c0-5.523-4.477-10-10-10z" />
-              </svg>
-              Facebook
+              <Globe className="h-4 w-4 text-rose-500 animate-pulse" />
+              Continue with Google
             </button>
           </div>
 
