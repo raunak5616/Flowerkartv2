@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, Fragment } from "react";
 import { useSearchParams } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   Sliders, 
   Search, 

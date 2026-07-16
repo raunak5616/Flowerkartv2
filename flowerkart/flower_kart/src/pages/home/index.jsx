@@ -287,42 +287,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 6. TESTIMONIALS */}
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-10 text-center max-w-xl mx-auto">
-          <p className="text-[10px] font-black uppercase tracking-[0.25em] text-rose-500">Reviews</p>
-          <h2 className="mt-2 text-2xl sm:text-3.5xl font-black tracking-tight text-gray-950">Loved by Customers</h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((t, idx) => (
-            <motion.div
-              key={idx}
-              whileHover={{ y: -5 }}
-              className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm text-left flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex gap-0.5 text-orange-400 mb-4">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-orange-400" />
-                  ))}
-                </div>
-                <p className="text-xs font-semibold text-gray-600 leading-relaxed italic mb-6">
-                  "{t.text}"
-                </p>
-              </div>
-              <div className="flex items-center gap-3">
-                <img src={t.avatar} alt={t.name} className="h-9 w-9 rounded-full object-cover" />
-                <div>
-                  <h4 className="text-xs font-black text-gray-900 leading-none">{t.name}</h4>
-                  <span className="text-[9px] font-bold text-gray-400">{t.role}</span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
       {/* 7. BRANDS BAR */}
       <section className="bg-gray-50 py-8 border-t border-gray-100">
         <div className="mx-auto max-w-7xl px-6">
