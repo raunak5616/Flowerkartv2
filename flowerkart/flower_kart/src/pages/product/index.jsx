@@ -10,7 +10,7 @@ import {
   RotateCcw,
   Check
 } from "lucide-react";
-import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
+import { Dialog, DialogPanel, DialogTitle, DialogBackdrop } from "@headlessui/react";
 import { getProducts } from "../../apiCalls/productapi";
 import RecipeReviewCard from "../../components/productCard";
 import EmptyState from "../../components/ui/EmptyState";
@@ -303,63 +303,51 @@ export default function Product() {
       </div>
 
       {/* MOBILE DRAWER FILTERS DIALOG */}
-      <AnimatePresence>
-        {isMobileFiltersOpen && (
-          <Dialog
-            static
-            open={isMobileFiltersOpen}
-            onClose={() => setIsMobileFiltersOpen(false)}
-            className="relative z-50 lg:hidden"
+      <Dialog
+        open={isMobileFiltersOpen}
+        onClose={() => setIsMobileFiltersOpen(false)}
+        className="relative z-50 lg:hidden"
+      >
+        <DialogBackdrop
+          transition
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm transition duration-300 ease-out data-[closed]:opacity-0"
+        />
+
+        {/* Bottom Sheet / Panel */}
+        <div className="fixed inset-0 flex justify-end">
+          <DialogPanel
+            transition
+            className="w-full max-w-[320px] bg-white h-full flex flex-col shadow-2xl p-6 relative overflow-y-auto transition duration-300 ease-out data-[closed]:translate-x-full"
           >
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm"
-            />
-
-            {/* Bottom Sheet / Panel */}
-            <div className="fixed inset-0 flex justify-end">
-              <DialogPanel
-                as={motion.div}
-                initial={{ x: "100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "100%" }}
-                transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                className="w-full max-w-[320px] bg-white h-full flex flex-col shadow-2xl p-6 relative overflow-y-auto"
+            {/* Header inside drawer */}
+            <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-3">
+              <DialogTitle className="text-base font-black text-gray-950 uppercase tracking-widest flex items-center gap-1.5">
+                <Sliders className="h-4 w-4 text-rose-500" />
+                Filter Settings
+              </DialogTitle>
+              <button
+                onClick={() => setIsMobileFiltersOpen(false)}
+                className="p-1.5 text-gray-500 hover:text-gray-900 rounded-full bg-gray-50 hover:bg-gray-100 transition"
               >
-                {/* Header inside drawer */}
-                <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-3">
-                  <DialogTitle className="text-base font-black text-gray-950 uppercase tracking-widest flex items-center gap-1.5">
-                    <Sliders className="h-4 w-4 text-rose-500" />
-                    Filter Settings
-                  </DialogTitle>
-                  <button
-                    onClick={() => setIsMobileFiltersOpen(false)}
-                    className="p-1.5 text-gray-500 hover:text-gray-900 rounded-full bg-gray-50 hover:bg-gray-100 transition"
-                  >
-                    <X className="h-4.5 w-4.5" />
-                  </button>
-                </div>
-
-                {/* Filters Content */}
-                <div className="flex-1 pb-6">
-                  {RenderFiltersContent()}
-                </div>
-
-                {/* Confirm Action Button */}
-                <button
-                  onClick={() => setIsMobileFiltersOpen(false)}
-                  className="w-full py-3 bg-rose-600 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-rose-700 shadow-md transition mt-auto"
-                >
-                  Apply Filters
-                </button>
-              </DialogPanel>
+                <X className="h-4.5 w-4.5" />
+              </button>
             </div>
-          </Dialog>
-        )}
-      </AnimatePresence>
+
+            {/* Filters Content */}
+            <div className="flex-1 pb-6">
+              {RenderFiltersContent()}
+            </div>
+
+            {/* Confirm Action Button */}
+            <button
+              onClick={() => setIsMobileFiltersOpen(false)}
+              className="w-full py-3 bg-rose-600 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-rose-700 shadow-md transition mt-auto"
+            >
+              Apply Filters
+            </button>
+          </DialogPanel>
+        </div>
+      </Dialog>
     </main>
   );
 }

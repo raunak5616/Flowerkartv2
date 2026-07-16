@@ -18,7 +18,7 @@ import {
   Sparkles,
   ChevronRight
 } from "lucide-react";
-import { Dialog, DialogPanel, DialogTitle, Menu as HeadlessMenu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react";
+import { Dialog, DialogPanel, DialogTitle, DialogBackdrop, Menu as HeadlessMenu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { useAuth } from "../../context/auth.context";
 import { useCart } from "../../context/card.context/useCartContext";
 import { useLocationContext } from "../../context/locationContext/useLocationContext";
@@ -455,31 +455,22 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* MOBILE DRAWER DIALOG (Framer Motion slide-over) */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <Dialog
-            static
-            open={isMobileMenuOpen}
-            onClose={() => setIsMobileMenuOpen(false)}
-            className="relative z-50 md:hidden"
-          >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm"
-            />
+      {/* MOBILE DRAWER DIALOG (Native Headless UI v2.0 transitions) */}
+      <Dialog
+        open={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        className="relative z-50 md:hidden"
+      >
+        <DialogBackdrop
+          transition
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm transition duration-300 ease-out data-[closed]:opacity-0"
+        />
 
-            <div className="fixed inset-0 flex justify-end">
-              <DialogPanel
-                as={motion.div}
-                initial={{ x: "100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "100%" }}
-                transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                className="w-full max-w-[300px] bg-white h-full flex flex-col shadow-2xl p-6 relative"
-              >
+        <div className="fixed inset-0 flex justify-end">
+          <DialogPanel
+            transition
+            className="w-full max-w-[300px] bg-white h-full flex flex-col shadow-2xl p-6 relative transition duration-300 ease-out data-[closed]:translate-x-full"
+          >
                 {/* Header inside drawer */}
                 <div className="flex items-center justify-between mb-8">
                   <span className="text-xl font-black bg-gradient-to-r from-rose-500 to-rose-700 bg-clip-text text-transparent">
@@ -618,14 +609,18 @@ export default function Navbar() {
               </DialogPanel>
             </div>
           </Dialog>
-        )}
-      </AnimatePresence>
 
       {/* LOCATION SELECTOR MODAL */}
       <Dialog open={isLocationModalOpen} onClose={() => setIsLocationModalOpen(false)} className="relative z-50">
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" aria-hidden="true" />
+        <DialogBackdrop
+          transition
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm transition duration-300 ease-out data-[closed]:opacity-0"
+        />
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <DialogPanel as={motion.div} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl transition-all border border-gray-100">
+          <DialogPanel
+            transition
+            className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl border border-gray-100 transition duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+          >
             <div className="flex items-center justify-between mb-4">
               <DialogTitle className="text-lg font-black text-gray-900">Delivery Location</DialogTitle>
               <button onClick={() => setIsLocationModalOpen(false)} className="p-1 rounded-full text-gray-400 hover:bg-gray-50 hover:text-gray-700">
