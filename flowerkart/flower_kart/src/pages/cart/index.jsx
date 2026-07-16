@@ -180,20 +180,20 @@ export const Cart = () => {
       <div className="mx-auto max-w-7xl">
         
         {/* Step-by-Step Progress Bar */}
-        <div className="max-w-xl mx-auto mb-10 flex items-center justify-between text-xs font-black uppercase tracking-widest text-gray-400">
-          <div className="flex flex-col items-center gap-2">
-            <div className={`h-8 w-8 rounded-full flex items-center justify-center border font-bold ${
+        <div className="max-w-xl mx-auto mb-10 flex items-center justify-between text-[9px] sm:text-xs font-black uppercase tracking-wider sm:tracking-widest text-gray-400">
+          <div className="flex flex-col items-center gap-1.5 sm:gap-2">
+            <div className={`h-7 w-7 sm:h-8 sm:w-8 rounded-full flex items-center justify-center border font-bold ${
               currentStep >= 1 ? "bg-gray-950 text-white border-gray-950 shadow-md shadow-gray-200" : "bg-white border-gray-200"
             }`}>
               1
             </div>
-            <span className={currentStep >= 1 ? "text-gray-900 font-black" : ""}>Cart Review</span>
+            <span className={currentStep >= 1 ? "text-gray-900 font-black" : ""}>Cart</span>
           </div>
 
-          <div className="flex-1 h-0.5 bg-gray-200 mx-4" />
+          <div className="flex-1 h-0.5 bg-gray-200 mx-2 sm:mx-4" />
 
-          <div className="flex flex-col items-center gap-2">
-            <div className={`h-8 w-8 rounded-full flex items-center justify-center border font-bold ${
+          <div className="flex flex-col items-center gap-1.5 sm:gap-2">
+            <div className={`h-7 w-7 sm:h-8 sm:w-8 rounded-full flex items-center justify-center border font-bold ${
               currentStep >= 2 ? "bg-gray-950 text-white border-gray-950 shadow-md shadow-gray-200" : "bg-white border-gray-200"
             }`}>
               2
@@ -201,10 +201,10 @@ export const Cart = () => {
             <span className={currentStep >= 2 ? "text-gray-900 font-black" : ""}>Delivery</span>
           </div>
 
-          <div className="flex-1 h-0.5 bg-gray-200 mx-4" />
+          <div className="flex-1 h-0.5 bg-gray-200 mx-2 sm:mx-4" />
 
-          <div className="flex flex-col items-center gap-2">
-            <div className={`h-8 w-8 rounded-full flex items-center justify-center border font-bold ${
+          <div className="flex flex-col items-center gap-1.5 sm:gap-2">
+            <div className={`h-7 w-7 sm:h-8 sm:w-8 rounded-full flex items-center justify-center border font-bold ${
               currentStep >= 3 ? "bg-gray-950 text-white border-gray-950 shadow-md shadow-gray-200" : "bg-white border-gray-200"
             }`}>
               3

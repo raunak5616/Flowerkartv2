@@ -14,7 +14,6 @@ import Profile from "../../pages/profile";
 import Footer from "../../components/footer";
 import { ShopByProduct } from "../../pages/shopByProduct";
 import Favorite from "../../pages/fav";
-import SellerDashboard from "../../pages/sellerDashboard";
 import { useReviewChecker } from "../../hooks/useReviewChecker";
 import ReviewModal from "../../components/ReviewModal";
 
@@ -65,7 +64,6 @@ const AppRouter = () => {
           <Route path="/contact" element={<Page><Contact /></Page>} />
           <Route path="/shop/:id" element={<Page><ShopByProduct /></Page>} />
           <Route path="favorite" element={<Page><Favorite /></Page>} />
-          <Route path="/seller-dashboard" element={<Page><SellerDashboard /></Page>} />
         </Routes>
       </AnimatePresence>
       <Footer />

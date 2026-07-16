@@ -393,19 +393,7 @@ export default function Navbar() {
                           </button>
                         )}
                       </MenuItem>
-                      <MenuItem>
-                        {({ active }) => (
-                          <button
-                            onClick={() => navigate("/seller-dashboard")}
-                            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition ${
-                              active ? "bg-rose-50 text-rose-600" : "text-gray-600"
-                            }`}
-                          >
-                            <LayoutDashboard className="h-4 w-4 shrink-0" />
-                            Seller Dashboard
-                          </button>
-                        )}
-                      </MenuItem>
+
                       <MenuItem>
                         {({ active }) => (
                           <button
