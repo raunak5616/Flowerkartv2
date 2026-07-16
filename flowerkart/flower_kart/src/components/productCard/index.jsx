@@ -13,7 +13,7 @@ import {
   ShieldCheck,
   PackageCheck
 } from "lucide-react";
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { Dialog, DialogPanel, DialogTitle, Transition } from "@headlessui/react";
 import { useCart } from "../../context/card.context/useCartContext";
 import { findCart } from "../../utils/findCartitem";
 import { findFavroite } from "../../utils/findFavroite";
