@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
-import { Fragment } from "react";
+import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { submitReview } from "../../apiCalls/productapi";
 
 const ReviewModal = ({ order, isOpen, onClose }) => {
@@ -59,32 +59,31 @@ const ReviewModal = ({ order, isOpen, onClose }) => {
   );
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-[100]" onClose={() => {}}>
-        <TransitionChild
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+    <AnimatePresence>
+      {isOpen && (
+        <Dialog 
+          static
+          open={isOpen} 
+          className="relative z-[100]" 
+          onClose={() => {}}
         >
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-        </TransitionChild>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+          />
 
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
-            <TransitionChild
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-[2rem] bg-white p-8 shadow-2xl transition-all">
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4">
+              <DialogPanel 
+                as={motion.div}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="w-full max-w-md transform overflow-hidden rounded-[2rem] bg-white p-8 shadow-2xl transition-all"
+              >
                 <div className="text-center mb-6">
                   <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="material-symbols-outlined text-red-500 text-4xl">celebration</span>
@@ -149,11 +148,11 @@ const ReviewModal = ({ order, isOpen, onClose }) => {
                   </button>
                 </div>
               </DialogPanel>
-            </TransitionChild>
+            </div>
           </div>
-        </div>
-      </Dialog>
-    </Transition>
+        </Dialog>
+      )}
+    </AnimatePresence>
   );
 };
 
