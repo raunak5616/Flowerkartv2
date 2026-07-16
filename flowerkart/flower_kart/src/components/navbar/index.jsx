@@ -369,83 +369,76 @@ export default function Navbar() {
                   />
                 </MenuButton>
 
-                <Transition
-                  as={Fragment}
-                  enter="transition duration-200 ease-out"
-                  enterFrom="transform scale-95 opacity-0 -translate-y-2"
-                  enterTo="transform scale-100 opacity-100 translate-y-0"
-                  leave="transition duration-150 ease-in"
-                  leaveFrom="transform scale-100 opacity-100 translate-y-0"
-                  leaveTo="transform scale-95 opacity-0 -translate-y-2"
+                <MenuItems 
+                  transition
+                  className="absolute right-0 mt-2.5 w-60 origin-top-right rounded-2xl bg-white border border-gray-100 shadow-2xl p-2 focus:outline-none transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0 data-[closed]:-translate-y-2"
                 >
-                  <MenuItems className="absolute right-0 mt-2.5 w-60 origin-top-right rounded-2xl bg-white border border-gray-100 shadow-2xl p-2 focus:outline-none">
-                    <div className="px-3.5 py-3 border-b border-gray-50 mb-1">
-                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Signed in as</p>
-                      <p className="text-xs font-black text-gray-800 truncate">{user?.email || "Guest Bloom Lover"}</p>
-                    </div>
+                  <div className="px-3.5 py-3 border-b border-gray-50 mb-1">
+                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Signed in as</p>
+                    <p className="text-xs font-black text-gray-800 truncate">{user?.email || "Guest Bloom Lover"}</p>
+                  </div>
 
-                    {isAuthenticated ? (
-                      <>
-                        <MenuItem>
-                          {({ active }) => (
-                            <button
-                              onClick={() => navigate("/profile")}
-                              className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition ${
-                                active ? "bg-rose-50 text-rose-600" : "text-gray-600"
-                              }`}
-                            >
-                              <User className="h-4 w-4 shrink-0" />
-                              My Profile
-                            </button>
-                          )}
-                        </MenuItem>
-                        <MenuItem>
-                          {({ active }) => (
-                            <button
-                              onClick={() => navigate("/seller-dashboard")}
-                              className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition ${
-                                active ? "bg-rose-50 text-rose-600" : "text-gray-600"
-                              }`}
-                            >
-                              <LayoutDashboard className="h-4 w-4 shrink-0" />
-                              Seller Dashboard
-                            </button>
-                          )}
-                        </MenuItem>
-                        <MenuItem>
-                          {({ active }) => (
-                            <button
-                              onClick={() => {
-                                logout();
-                                navigate("/login");
-                              }}
-                              className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition ${
-                                active ? "bg-red-50 text-red-600" : "text-red-500"
-                              }`}
-                            >
-                              <LogOut className="h-4 w-4 shrink-0" />
-                              Logout
-                            </button>
-                          )}
-                        </MenuItem>
-                      </>
-                    ) : (
+                  {isAuthenticated ? (
+                    <>
                       <MenuItem>
                         {({ active }) => (
                           <button
-                            onClick={() => navigate("/login")}
+                            onClick={() => navigate("/profile")}
                             className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition ${
-                              active ? "bg-rose-50 text-rose-600" : "text-gray-700"
+                              active ? "bg-rose-50 text-rose-600" : "text-gray-600"
                             }`}
                           >
                             <User className="h-4 w-4 shrink-0" />
-                            Login / Sign up
+                            My Profile
                           </button>
                         )}
                       </MenuItem>
-                    )}
-                  </MenuItems>
-                </Transition>
+                      <MenuItem>
+                        {({ active }) => (
+                          <button
+                            onClick={() => navigate("/seller-dashboard")}
+                            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition ${
+                              active ? "bg-rose-50 text-rose-600" : "text-gray-600"
+                            }`}
+                          >
+                            <LayoutDashboard className="h-4 w-4 shrink-0" />
+                            Seller Dashboard
+                          </button>
+                        )}
+                      </MenuItem>
+                      <MenuItem>
+                        {({ active }) => (
+                          <button
+                            onClick={() => {
+                              logout();
+                              navigate("/login");
+                            }}
+                            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition ${
+                              active ? "bg-red-50 text-red-600" : "text-red-500"
+                            }`}
+                          >
+                            <LogOut className="h-4 w-4 shrink-0" />
+                            Logout
+                          </button>
+                        )}
+                      </MenuItem>
+                    </>
+                  ) : (
+                    <MenuItem>
+                      {({ active }) => (
+                        <button
+                          onClick={() => navigate("/login")}
+                          className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition ${
+                            active ? "bg-rose-50 text-rose-600" : "text-gray-700"
+                          }`}
+                        >
+                          <User className="h-4 w-4 shrink-0" />
+                          Login / Sign up
+                        </button>
+                      )}
+                    </MenuItem>
+                  )}
+                </MenuItems>
               </HeadlessMenu>
 
               {/* Hamburger Button for mobile */}
