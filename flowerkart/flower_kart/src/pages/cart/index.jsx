@@ -217,9 +217,9 @@ export const Cart = () => {
         <div className="mb-8 flex flex-col gap-3.5 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.25em] text-rose-500">Secure transaction</p>
-            <h1 className="mt-2 text-3xl font-black tracking-tight text-gray-950">Review Your Cart</h1>
+            <h1 className="mt-2 text-2xl sm:text-3xl font-black tracking-tight text-gray-950">Review Your Cart</h1>
           </div>
-          <div className="flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50/50 px-4 py-2 text-xs font-black uppercase tracking-wider text-emerald-700 shadow-sm">
+          <div className="flex w-fit items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50/50 px-4 py-2 text-xs font-black uppercase tracking-wider text-emerald-700 shadow-sm">
             <ShieldCheck className="h-4 w-4 text-emerald-600" />
             Razorpay Secure Checkout
           </div>
