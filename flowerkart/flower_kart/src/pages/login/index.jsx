@@ -60,46 +60,6 @@ const Login = () => {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    setIsLoading(true);
-    setValidationError("");
-    try {
-      try {
-        await axios.post(
-          `${import.meta.env.VITE_API_URL}/signup`,
-          {
-            name: "Google User",
-            email: "google-user@flowerkart.com",
-            phone: "9999999999",
-            password: "google-password-secure-123"
-          },
-          { headers: { "Content-Type": "application/json" } }
-        );
-      } catch (err) {
-        console.log("Mock Google User already registered or signup failed, proceeding to login...");
-      }
-
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/login`,
-        {
-          email: "google-user@flowerkart.com",
-          password: "google-password-secure-123"
-        },
-        { headers: { "Content-Type": "application/json" } }
-      );
-
-      const token = response.data.token;
-      const userData = response.data.user;
-      login(userData, token);
-      navigate("/");
-    } catch (error) {
-      console.error(error);
-      setValidationError("Failed to authenticate with Google. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="min-h-screen grid lg:grid-cols-2 bg-gray-50 text-left">
       
@@ -144,24 +104,7 @@ const Login = () => {
             <p className="text-xs text-gray-400 mt-1 font-semibold">Please authenticate to access your cart and account.</p>
           </div>
 
-          {/* Social login placeholders */}
-          <div className="mb-6">
-            <button
-              type="button"
-              onClick={handleGoogleLogin}
-              disabled={isLoading}
-              className="w-full flex items-center justify-center gap-2 border border-gray-200 hover:bg-gray-50 py-3 rounded-xl text-xs font-black uppercase tracking-widest text-gray-700 transition shadow-sm disabled:opacity-50"
-            >
-              <Globe className="h-4 w-4 text-rose-500 animate-pulse" />
-              Continue with Google
-            </button>
-          </div>
 
-          <div className="relative flex py-2 items-center mb-6">
-            <div className="flex-grow border-t border-gray-100"></div>
-            <span className="flex-shrink mx-4 text-gray-400 text-[9px] font-black uppercase tracking-wider">or email</span>
-            <div className="flex-grow border-t border-gray-100"></div>
-          </div>
 
           {/* Form */}
           <form onSubmit={onsubmitPress} className="space-y-4">
