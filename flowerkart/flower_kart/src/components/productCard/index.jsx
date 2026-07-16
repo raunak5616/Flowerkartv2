@@ -13,7 +13,7 @@ import {
   ShieldCheck,
   PackageCheck
 } from "lucide-react";
-import { Dialog, DialogPanel, DialogTitle, Transition } from "@headlessui/react";
+import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useCart } from "../../context/card.context/useCartContext";
 import { findCart } from "../../utils/findCartitem";
 import { findFavroite } from "../../utils/findFavroite";
@@ -197,89 +197,110 @@ export default function RecipeReviewCard({ product }) {
       </article>
 
       {/* QUICK VIEW DIALOG DIALOG */}
-      <Transition appear show={isQuickViewOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-50" onClose={() => setIsQuickViewOpen(false)}>
-          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" aria-hidden="true" />
-          
-          <div className="fixed inset-0 flex items-center justify-center p-4">
-            <DialogPanel as={motion.div} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-2xl transform overflow-hidden rounded-[2.5rem] bg-white p-6 shadow-2xl transition-all border border-gray-100 grid md:grid-cols-2 gap-6 relative">
-              <button
-                onClick={() => setIsQuickViewOpen(false)}
-                className="absolute top-4 right-4 p-1.5 text-gray-400 hover:text-gray-900 bg-gray-50 rounded-full hover:bg-gray-100 transition z-10"
+      <AnimatePresence>
+        {isQuickViewOpen && (
+          <Dialog
+            static
+            open={isQuickViewOpen}
+            as="div"
+            className="relative z-50"
+            onClose={() => setIsQuickViewOpen(false)}
+          >
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm"
+              aria-hidden="true"
+            />
+            
+            <div className="fixed inset-0 flex items-center justify-center p-4">
+              <DialogPanel
+                as={motion.div}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="w-full max-w-2xl transform overflow-hidden rounded-[2.5rem] bg-white p-6 shadow-2xl transition-all border border-gray-100 grid md:grid-cols-2 gap-6 relative"
               >
-                <X className="h-4.5 w-4.5" />
-              </button>
+                <button
+                  onClick={() => setIsQuickViewOpen(false)}
+                  className="absolute top-4 right-4 p-1.5 text-gray-400 hover:text-gray-900 bg-gray-50 rounded-full hover:bg-gray-100 transition z-10"
+                >
+                  <X className="h-4.5 w-4.5" />
+                </button>
 
-              {/* Left Image Column */}
-              <div className="rounded-2xl bg-gray-50/50 p-4 flex items-center justify-center aspect-square">
-                <img
-                  src={imageUrl}
-                  alt={product?.name}
-                  className="max-h-full max-w-full object-contain rounded-xl"
-                />
-              </div>
-
-              {/* Right Content Column */}
-              <div className="flex flex-col text-left justify-center py-2">
-                <span className="text-[10px] font-black uppercase tracking-[0.25em] text-rose-500">{product?.category}</span>
-                <DialogTitle as="h3" className="text-xl sm:text-2xl font-black text-gray-950 mt-1.5 leading-tight">
-                  {product?.name}
-                </DialogTitle>
-
-                <div className="flex items-center gap-1.5 mt-2 bg-amber-50 border border-amber-100/50 rounded-full px-2.5 py-0.5 w-fit">
-                  <Star className="h-3.5 w-3.5 text-amber-500 fill-amber-500" />
-                  <span className="text-[10px] font-black text-gray-800">{product?.rating?.toFixed(1) || "New"} Rating</span>
+                {/* Left Image Column */}
+                <div className="rounded-2xl bg-gray-50/50 p-4 flex items-center justify-center aspect-square">
+                  <img
+                    src={imageUrl}
+                    alt={product?.name}
+                    className="max-h-full max-w-full object-contain rounded-xl"
+                  />
                 </div>
 
-                <p className="text-xs text-gray-500 font-semibold leading-relaxed mt-4">
-                  {product?.description || "Curated and handcrafted premium floral designs sourced from boutique local farms, delivered in premium protective wrappers."}
-                </p>
+                {/* Right Content Column */}
+                <div className="flex flex-col text-left justify-center py-2">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-rose-500">{product?.category}</span>
+                  <DialogTitle as="h3" className="text-xl sm:text-2xl font-black text-gray-950 mt-1.5 leading-tight">
+                    {product?.name}
+                  </DialogTitle>
 
-                <div className="flex items-baseline gap-2 mt-5">
-                  <span className="text-2xl font-black text-gray-990">₹{finalPrice?.toLocaleString()}</span>
-                  {product?.discount > 0 && (
-                    <span className="text-xs font-bold text-gray-400 line-through">₹{product?.price?.toLocaleString()}</span>
-                  )}
-                </div>
-
-                {/* Badges and actions */}
-                <div className="grid grid-cols-2 gap-2 mt-5 text-[10px] font-black text-gray-700">
-                  <div className="flex items-center gap-2 bg-gray-50 p-2.5 rounded-xl border border-gray-100">
-                    <Truck className="h-4 w-4 text-rose-600" />
-                    <span>Same-Day Delivery</span>
+                  <div className="flex items-center gap-1.5 mt-2 bg-amber-50 border border-amber-100/50 rounded-full px-2.5 py-0.5 w-fit">
+                    <Star className="h-3.5 w-3.5 text-amber-500 fill-amber-500" />
+                    <span className="text-[10px] font-black text-gray-800">{product?.rating?.toFixed(1) || "New"} Rating</span>
                   </div>
-                  <div className="flex items-center gap-2 bg-gray-50 p-2.5 rounded-xl border border-gray-100">
-                    <ShieldCheck className="h-4 w-4 text-rose-600" />
-                    <span>Secure Checkout</span>
+
+                  <p className="text-xs text-gray-500 font-semibold leading-relaxed mt-4">
+                    {product?.description || "Curated and handcrafted premium floral designs sourced from boutique local farms, delivered in premium protective wrappers."}
+                  </p>
+
+                  <div className="flex items-baseline gap-2 mt-5">
+                    <span className="text-2xl font-black text-gray-990">₹{finalPrice?.toLocaleString()}</span>
+                    {product?.discount > 0 && (
+                      <span className="text-xs font-bold text-gray-400 line-through">₹{product?.price?.toLocaleString()}</span>
+                    )}
+                  </div>
+
+                  {/* Badges and actions */}
+                  <div className="grid grid-cols-2 gap-2 mt-5 text-[10px] font-black text-gray-700">
+                    <div className="flex items-center gap-2 bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+                      <Truck className="h-4 w-4 text-rose-600" />
+                      <span>Same-Day Delivery</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+                      <ShieldCheck className="h-4 w-4 text-rose-600" />
+                      <span>Secure Checkout</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 flex gap-2.5">
+                    <button
+                      onClick={onCartClick}
+                      className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest text-white shadow-md transition-colors flex items-center justify-center gap-2 ${
+                        isInCart ? "bg-rose-600 hover:bg-rose-700 shadow-rose-100" : "bg-gray-950 hover:bg-rose-600 shadow-gray-100"
+                      }`}
+                    >
+                      <ShoppingBag className="h-4 w-4" />
+                      {isInCart ? "In Cart (Remove)" : "Add to Cart"}
+                    </button>
+                    <button
+                      onClick={onFavoriteClick}
+                      className={`px-4 py-3 rounded-xl border transition flex items-center justify-center ${
+                        isFavorite 
+                          ? "bg-rose-50 border-rose-100 text-rose-600 hover:bg-rose-100" 
+                          : "bg-white border-gray-200 text-gray-400 hover:text-rose-500 hover:border-rose-100"
+                      }`}
+                    >
+                      <Heart className={`h-4.5 w-4.5 ${isFavorite ? "fill-rose-500 text-rose-500" : ""}`} />
+                    </button>
                   </div>
                 </div>
-
-                <div className="mt-6 flex gap-2.5">
-                  <button
-                    onClick={onCartClick}
-                    className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest text-white shadow-md transition-colors flex items-center justify-center gap-2 ${
-                      isInCart ? "bg-rose-600 hover:bg-rose-700 shadow-rose-100" : "bg-gray-950 hover:bg-rose-600 shadow-gray-100"
-                    }`}
-                  >
-                    <ShoppingBag className="h-4 w-4" />
-                    {isInCart ? "In Cart (Remove)" : "Add to Cart"}
-                  </button>
-                  <button
-                    onClick={onFavoriteClick}
-                    className={`px-4 py-3 rounded-xl border transition flex items-center justify-center ${
-                      isFavorite 
-                        ? "bg-rose-50 border-rose-100 text-rose-600 hover:bg-rose-100" 
-                        : "bg-white border-gray-200 text-gray-400 hover:text-rose-500 hover:border-rose-100"
-                    }`}
-                  >
-                    <Heart className={`h-4.5 w-4.5 ${isFavorite ? "fill-rose-500 text-rose-500" : ""}`} />
-                  </button>
-                </div>
-              </div>
-            </DialogPanel>
-          </div>
-        </Dialog>
-      </Transition>
+              </DialogPanel>
+            </div>
+          </Dialog>
+        )}
+      </AnimatePresence>
     </>
   );
 }
