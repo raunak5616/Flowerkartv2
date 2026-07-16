@@ -12,7 +12,8 @@ import {
   MessageSquare,
   Gift,
   Smile,
-  Globe
+  Globe,
+  ChevronRight
 } from "lucide-react";
 import { getProducts } from "../../apiCalls/productapi";
 import RecipeReviewCard from "../../components/productCard";
